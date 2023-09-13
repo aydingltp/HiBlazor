@@ -38,9 +38,9 @@ namespace HiBlazor.Server.Services
             return response;
         }
 
-        public IEnumerable<User> GetAll()
+        public List<User> GetAll()
         {
-            return _context.Users;
+            return _context.Users.ToList();
         }
 
         public User GetById(int id)
@@ -48,7 +48,7 @@ namespace HiBlazor.Server.Services
             return getUser(id);
         }
 
-        public void Register(RegisterRequest model)
+        public void Register(UserRegisterRequest model)
         {
             // validate
             if (_context.Users.Any(x => x.Username == model.Username))
@@ -65,7 +65,7 @@ namespace HiBlazor.Server.Services
             _context.SaveChanges();
         }
 
-        public void Update(int id, UpdateRequest model)
+        public void Update(int id, UserUpdateRequest model)
         {
             var user = getUser(id);
 

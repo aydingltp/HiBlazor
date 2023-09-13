@@ -7,14 +7,20 @@ using System.Threading.Tasks;
 
 namespace HiBlazor.Shared.Entity
 {
-    public class User
+    public class User:BaseModel
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }
 
         [JsonIgnore]
         public string PasswordHash { get; set; }
+        public UserType UserType { get; set; }
+
+    }
+    public enum UserType
+    {
+        User,
+        CompanyOwner
     }
 }

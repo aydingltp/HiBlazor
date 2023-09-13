@@ -21,5 +21,7 @@ namespace HiBlazor.Server.Helpers
         }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<HiBlazor.Shared.Entity.Reservation> Reservation { get; set; } = default!;
     }
 }

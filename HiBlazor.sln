@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiBlazor.Server", "HiBlazor\Server\HiBlazor.Server.csproj", "{10C53845-E4BB-4B38-93C9-50410F8AC6C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiBlazor.Server", "HiBlazor\Server\HiBlazor.Server.csproj", "{10C53845-E4BB-4B38-93C9-50410F8AC6C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiBlazor.Client", "HiBlazor\Client\HiBlazor.Client.csproj", "{6E445D0D-A723-4288-894B-6B2C70B14900}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiBlazor.Client", "HiBlazor\Client\HiBlazor.Client.csproj", "{6E445D0D-A723-4288-894B-6B2C70B14900}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiBlazor.Shared", "HiBlazor\Shared\HiBlazor.Shared.csproj", "{CAC67B0B-FEB8-4335-9078-87FF2F7D855B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiBlazor.Shared", "HiBlazor\Shared\HiBlazor.Shared.csproj", "{CAC67B0B-FEB8-4335-9078-87FF2F7D855B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

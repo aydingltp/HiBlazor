@@ -1,13 +1,17 @@
 ﻿@page "/login"
-@layout LoginLayout
+@using HiBlazor.Shared.VmModels;
+@* @layout LoginLayout *@
+@inject HttpClient Http
+@inject NotificationService NotificationService
+@inject NavigationManager NavigationManager
 
 <RadzenCard class="rz-my-12 rz-mx-auto rz-p-4 rz-p-md-12" style="max-width: 600px;">
     <RadzenTemplateForm Data=@("LoginWithDefaultValues")>
-        <RadzenLogin AllowRegister="true" AllowResetPassword="true" Username=@userName Password=@password
-                    AllowRememberMe="true" RememberMe="@rememberMe"
-                    Login=@(args => OnLogin(args, "Login with default values"))
-                    ResetPassword=@(args => OnResetPassword(args, "Login with default values"))
-                    Register=@(args => OnRegister("Login with default values")) />
+        <RadzenLogin AllowRegister="true" AllowResetPassword="false" Username=@userName Password=@password
+                     AllowRememberMe="true" RememberMe="@rememberMe"
+                     Login=@(args => OnLogin(args, "Login with default values"))
+                     ResetPassword=@(args => OnResetPassword(args, "Login with default values"))
+                     Register=@(args => OnRegister("Login with default values")) />
     </RadzenTemplateForm>
 </RadzenCard>
 
@@ -18,9 +22,23 @@
     bool rememberMe = true;
 
 
-    void OnLogin(LoginArgs args, string name)
+    async void OnLogin(LoginArgs args, string name)
     {
-        // console.Log($"{name} -> Username: {args.Username}, password: {args.Password}, remember me: {args.RememberMe}");
+        var loginVm = new AuthenticateRequest
+            {
+                Username = args.Username,
+                Password = args.Password
+            };
+
+        var registerService = await Http.PostAsJsonAsync("users/authenticate", loginVm);
+        if (registerService.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo("/");
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Success", Detail = "Giriş başarılı!" });
+            return;
+        }
+
+        NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Error", Detail = registerService.Content.ToString() });
     }
 
     void OnRegister(string name)

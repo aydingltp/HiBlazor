@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HiBlazor.Shared.VmModels
 {
-    public class RegisterRequest
+    public class UserRegisterRequest
     {
         [Required]
         public string FirstName { get; set; }
@@ -19,6 +19,13 @@ namespace HiBlazor.Shared.VmModels
         public string Username { get; set; }
 
         [Required]
+        public string Password { get; set; }
+    }
+    public class UserUpdateRequest
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
     }
 }

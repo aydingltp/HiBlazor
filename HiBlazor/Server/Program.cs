@@ -1,3 +1,6 @@
+using HiBlazor.Server.Authorization;
+using HiBlazor.Server.Helpers;
+using HiBlazor.Server.Services;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<DataContext>();
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.AddScoped<IJwtUtils, JwtUtils>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
@@ -28,6 +37,15 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+// global error handler
+app.UseMiddleware<ErrorHandlerMiddleware>();
+// custom jwt auth middleware
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapRazorPages();
 app.MapControllers();

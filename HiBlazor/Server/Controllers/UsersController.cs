@@ -38,7 +38,7 @@ namespace HiBlazor.Server.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register(RegisterRequest model)
+        public IActionResult Register(UserRegisterRequest model)
         {
             _userService.Register(model);
             return Ok(new { message = "Registration successful" });
@@ -59,7 +59,7 @@ namespace HiBlazor.Server.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, UpdateRequest model)
+        public IActionResult Update(int id, UserUpdateRequest model)
         {
             _userService.Update(id, model);
             return Ok(new { message = "User updated successfully" });

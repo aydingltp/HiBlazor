@@ -6,10 +6,10 @@ namespace HiBlazor.Server.Services
     public interface IUserService
     {
         AuthenticateResponse Authenticate(AuthenticateRequest model);
-        IEnumerable<User> GetAll();
+        List<User> GetAll();
         User GetById(int id);
-        void Register(RegisterRequest model);
-        void Update(int id, UpdateRequest model);
+        void Register(UserRegisterRequest model);
+        void Update(int id, UserUpdateRequest model);
         void Delete(int id);
     }
 }

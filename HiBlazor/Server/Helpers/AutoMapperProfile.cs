@@ -12,10 +12,10 @@ namespace HiBlazor.Server.Helpers
             CreateMap<User, AuthenticateResponse>();
 
             // RegisterRequest -> User
-            CreateMap<RegisterRequest, User>();
+            CreateMap<UserRegisterRequest, User>();
 
             // UpdateRequest -> User
-            CreateMap<UpdateRequest, User>()
+            CreateMap<UserUpdateRequest, User>()
                 .ForAllMembers(x => x.Condition(
                     (src, dest, prop) =>
                     {
