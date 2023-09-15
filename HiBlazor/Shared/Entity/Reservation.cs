@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,18 +21,21 @@ namespace HiBlazor.Shared.Entity
         public List<Teklif> Teklifler { get; set; }
     }
 
-    public class Teklif:BaseModel
+    public class Teklif : BaseModel
     {
         public int Para { get; set; }
-        public int MyProperty { get; set; }
 
         public TeklifState State { get; set; }
+
+        //[ForeignKey("VehicleId")]
         public int VehicleId { get; set; }
-        public Vehicle Vehicle { get; set; }
+        public Vehicle? Vehicle { get; set; }
         public int ReservationId { get; set; }
         public Reservation Reservation { get; set; }
-        public int CompanyId { get; set; }
-        public Company Company { get; set; }
+
+        //[ForeignKey("CompanyId")]
+        //public int CompanyId { get; set; }
+        //public Company? Company { get; set; }
     }
 
     public enum TeklifState

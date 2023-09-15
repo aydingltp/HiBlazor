@@ -17,6 +17,8 @@ namespace HiBlazor.Shared.Entity
         public string PasswordHash { get; set; }
         public UserType UserType { get; set; }
 
+        public List<Reservation> Reservations { get; set; }
+
     }
     public enum UserType
     {
