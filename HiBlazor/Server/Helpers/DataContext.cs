@@ -1,6 +1,7 @@
 ﻿using HiBlazor.Shared.Entity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 
 namespace HiBlazor.Server.Helpers
 {
@@ -16,12 +17,16 @@ namespace HiBlazor.Server.Helpers
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            // connect to sql server database
+
             options.UseSqlServer(Configuration.GetConnectionString("WebApiDatabase"));
         }
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<HiBlazor.Shared.Entity.Reservation> Reservation { get; set; } = default!;
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Teklif> Teklifs { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
+
     }
 }

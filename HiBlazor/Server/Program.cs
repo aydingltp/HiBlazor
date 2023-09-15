@@ -15,6 +15,10 @@ builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IReservationService, ReservationService>();
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -36,7 +40,7 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();
 
 app.UseCors(x => x
     .AllowAnyOrigin()
@@ -46,6 +50,9 @@ app.UseCors(x => x
 app.UseMiddleware<ErrorHandlerMiddleware>();
 // custom jwt auth middleware
 app.UseMiddleware<JwtMiddleware>();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();

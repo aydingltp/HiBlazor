@@ -12,7 +12,9 @@ namespace HiBlazor.Server.Helpers
             CreateMap<User, AuthenticateResponse>();
 
             // RegisterRequest -> User
-            CreateMap<UserRegisterRequest, User>();
+            CreateMap<UserRegisterRequest, User>();   
+            CreateMap<Reservation, ReservationVm>();
+            CreateMap<ReservationVm, Reservation>();
 
             // UpdateRequest -> User
             CreateMap<UserUpdateRequest, User>()
