@@ -13,15 +13,16 @@ namespace HiBlazor.Server.Services
         private IJwtUtils _jwtUtils;
         private readonly IMapper _mapper;
         ISimpleHash simpleHash = new SimpleHash();
-
+        private readonly IHttpContextAccessor _contextAccessor;
         public UserService(
             DataContext context,
             IJwtUtils jwtUtils,
-            IMapper mapper)
+            IMapper mapper, IHttpContextAccessor contextAccessor)
         {
             _context = context;
             _jwtUtils = jwtUtils;
             _mapper = mapper;
+            _contextAccessor = contextAccessor;
         }
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
@@ -35,8 +36,22 @@ namespace HiBlazor.Server.Services
             // authentication successful
             var response = _mapper.Map<AuthenticateResponse>(user);
             response.Token = _jwtUtils.GenerateToken(user);
+
+           _contextAccessor.HttpContext.Session.SetString("token", response.Token);
+
             return response;
         }
+        public void LogOut()
+        {
+            _contextAccessor.HttpContext.Session.Remove("token");
+        }
+        public bool IsLogin()
+        {
+            var token = _contextAccessor.HttpContext.Session.GetString("token");
+
+            return token is not null;
+        }
+
 
         public List<User> GetAll()
         {

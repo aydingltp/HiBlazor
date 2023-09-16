@@ -1,0 +1,39 @@
+﻿@inject HttpClient Http
+@inject NotificationService NotificationService
+@inject NavigationManager NavigationManager
+
+@if (isLogin)
+{
+    <RadzenButton Variant="Variant.Text" Click=@Out Text="Çıkış Yap" ButtonStyle="ButtonStyle.Danger" />
+}
+else
+{
+    <RadzenButton Variant="Variant.Text" Click=@Login Text="Giriş Yap" ButtonStyle="ButtonStyle.Success" />
+    <RadzenButton Variant="Variant.Text" Click=@Register Text="Kayıt Ol" ButtonStyle="ButtonStyle.Primary" />
+}
+
+@code {
+    public bool isLogin { get; set; }
+
+    public async void UpdateState()
+    {
+        isLogin = await Http.GetFromJsonAsync<bool>("users/islogin");
+        StateHasChanged();
+    }
+
+    private async void Out()
+    {
+        await Http.GetAsync("users/logout");
+        NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Çıkış yapıldı!"});
+        NavigationManager.NavigateTo("login");
+    }
+
+    private void Login()
+    {
+        NavigationManager.NavigateTo("login");
+    } 
+    private void Register()
+    {
+        NavigationManager.NavigateTo("register");
+    }
+}

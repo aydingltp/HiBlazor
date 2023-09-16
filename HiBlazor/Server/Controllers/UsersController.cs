@@ -37,6 +37,22 @@ namespace HiBlazor.Server.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("logout")]
+        public IActionResult LogOut()
+        {
+            _userService.LogOut();
+            return Redirect("/login");
+        }
+
+        [AllowAnonymous]
+        [HttpGet("islogin")]
+        public IActionResult IsLogin()
+        {
+            var islogin = _userService.IsLogin();
+            return Ok(islogin);
+        }
+
+        [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register(UserRegisterRequest model)
         {
