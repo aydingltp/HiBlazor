@@ -7,7 +7,7 @@ namespace HiBlazor.Server.Services
     {
         List<Reservation> GetAll();
         Reservation GetById(int id);
-        void Create(ReservationVm model);
+        void Create(ReservationVm model, int userId);
         void Update(int id, ReservationVm model);
         void Delete(int id);
     }

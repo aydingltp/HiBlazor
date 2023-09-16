@@ -1,9 +1,9 @@
-﻿using System;
+﻿using HiBlazor.Shared.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HiBlazor.Shared.VmModels
 {
@@ -20,6 +20,7 @@ namespace HiBlazor.Shared.VmModels
 
         [Required]
         public string Password { get; set; }
+        public UserType UserType { get; set; }
     }
     public class UserUpdateRequest
     {

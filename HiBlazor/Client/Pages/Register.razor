@@ -1,4 +1,5 @@
 ﻿@page "/register"
+@* @layout LoginLayout *@
 @using HiBlazor.Shared.VmModels;
 @inject HttpClient Http
 @inject NotificationService NotificationService
@@ -12,7 +13,7 @@
                     <RadzenStack Gap="1rem">
                         <RadzenRow AlignItems="AlignItems.Center">
                             <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="First Name" />
+                                <RadzenLabel Text="Ad" />
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenTextBox @bind-Value=@registerVm.FirstName Style="width: 100%;" />
@@ -20,7 +21,7 @@
                         </RadzenRow>
                         <RadzenRow AlignItems="AlignItems.Center">
                             <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="Last Name" />
+                                <RadzenLabel Text="Soyad" />
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenTextBox @bind-Value=@registerVm.LastName Style="width: 100%;" />
@@ -28,10 +29,21 @@
                         </RadzenRow>
                         <RadzenRow AlignItems="AlignItems.Center">
                             <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="User Name" />
+                                <RadzenLabel Text="Kullanıcı Adı" />
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenTextBox @bind-Value=@registerVm.Username Style="width: 100%;" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="4">
+                                <RadzenLabel Text="Hesap Türü" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="8">
+                                <InputSelect @bind-Value=@registerVm.UserType Style="width: 100%;" class="rz-dropdown rz-clear">
+                                        <option value="0">Müşteri</option>
+                                        <option value="1">Nakliye Şirketi</option>
+                                </InputSelect>
                             </RadzenColumn>
                         </RadzenRow>
                         <RadzenRow AlignItems="AlignItems.Center">
