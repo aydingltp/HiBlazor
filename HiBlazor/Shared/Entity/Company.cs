@@ -11,12 +11,12 @@ namespace HiBlazor.Shared.Entity
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public int RatingScore { get; set; }
+        public int? RatingScore { get; set; }
 
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int? UserId { get; set; }
+        public User? User { get; set; }
 
-        public List<Vehicle> Vehicles { get; set; }
+        public List<Vehicle>? Vehicles { get; set; }
 
     }
 

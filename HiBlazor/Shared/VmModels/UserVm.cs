@@ -21,7 +21,7 @@ namespace HiBlazor.Shared.VmModels
         [Required]
         public string Password { get; set; }
         public bool IsCompany { get; set; }
-        public Company Company { get; set; } = new Company();
+        public Company? Company { get; set; } = new Company();
         //public List<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
     }
     public class UserUpdateRequest

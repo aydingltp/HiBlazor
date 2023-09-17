@@ -1,10 +1,10 @@
-﻿@page "/shipping-list"
+﻿@page "/shipping-listall"
 @using HiBlazor.Shared.Entity;
 @using HiBlazor.Shared.VmModels;
 @inject HttpClient Http
 @inject NotificationService NotificationService
 @inject NavigationManager NavigationManager
-<h3>Nakliye Taleplerim</h3>
+<h3>Nakliye Talepleri</h3>
 
 
 <RadzenDataList AllowVirtualization=@allowVirtualization Style="@(allowVirtualization ? "height:400px;overflow:auto;" : "")"
@@ -15,8 +15,8 @@
             <RadzenRow Gap="0">
                 <RadzenColumn Size="12" SizeLG="3" Class="rz-p-4 product-title">
                     <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H6" Style="display:inline-block;" class="rz-color-secondary">@(reservation.StartingPlace) &nbsp;</RadzenText>
-                        <RadzenIcon Icon="flight_takeoff" Style="display:inline-block;" />
-                        <RadzenText TextStyle="TextStyle.H6" Style="display:inline-block;" TagName="TagName.H6" class="rz-color-secondary">&nbsp; @(reservation.DestinationPlace)</RadzenText>
+                    <RadzenIcon Icon="flight_takeoff" Style="display:inline-block;" />
+                    <RadzenText TextStyle="TextStyle.H6" Style="display:inline-block;" TagName="TagName.H6" class="rz-color-secondary">&nbsp; @(reservation.DestinationPlace)</RadzenText>
                     </RadzenColumn>
                     <RadzenColumn Size="12" SizeLG="5" Class="rz-p-4">
                         <RadzenRow Gap="0">
@@ -30,20 +30,54 @@
                         </RadzenRow>
                     </RadzenColumn>
                     <RadzenColumn Size="12" SizeLG="2" Class="rz-p-4">
-                        <RadzenButton Text="Güncelle" Style="width: 100%" />
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="4">
+                                <RadzenLabel Text="Teklif Ver" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="8">
+                                <RadzenCheckBox TValue="bool" @bind-Value="teklifVer" Change="@(args => teklif.ReservationId = reservation.Id)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+
                     </RadzenColumn>
                 </RadzenRow>
             </RadzenCard>
         </Template>
     </RadzenDataList>
+
+    @if (teklifVer)
+{
+    <RadzenFieldset Text="Araç 1">
+
+        <RadzenRow AlignItems="AlignItems.Center">
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenLabel Text="Para" />
+            </RadzenColumn>
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenNumeric @bind-Value="teklif.Para" Placeholder="Para" />
+            </RadzenColumn>
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenButton Text="Teklifi Gönder" Click="@(()=>TeklifVer())" Style="width: 100%" />
+            </RadzenColumn>
+        </RadzenRow>
+
+    </RadzenFieldset>
+}
 @code {
     IEnumerable<Reservation> reservations;
     bool allowVirtualization;
+    bool teklifVer = false;
+    Teklif teklif = new();
+
+    void TeklifVer()
+    {
+        // burada kaldım :)
+    }
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            reservations = await Http.GetFromJsonAsync<IEnumerable<Reservation>>("reservation/getallwithid");
+            reservations = await Http.GetFromJsonAsync<IEnumerable<Reservation>>("reservation");
         }
         catch (Exception ex)
         {
