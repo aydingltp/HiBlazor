@@ -4,6 +4,7 @@ using HiBlazor.Server.Helpers;
 using HiBlazor.Shared.Entity;
 using HiBlazor.Shared.VmModels;
 using SimpleHashing.Net;
+using System.Text;
 
 namespace HiBlazor.Server.Services
 {
@@ -51,7 +52,21 @@ namespace HiBlazor.Server.Services
 
             return token is not null;
         }
+        public int GetLoggedUserId()
+        {
+            var token = _contextAccessor.HttpContext.Session.GetString("token");
+            return _jwtUtils.ValidateToken(token).Value;
+        }
+        public bool IsCompany()
+        {
+            var token = _contextAccessor.HttpContext.Session.GetString("token");
+            if (token is null)
+                return false;
 
+            var userid = _jwtUtils.ValidateToken(token).Value;
+            var user = getUser(userid);
+            return user.UserType == UserType.CompanyOwner;
+        }
 
         public List<User> GetAll()
         {

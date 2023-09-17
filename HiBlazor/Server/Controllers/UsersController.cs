@@ -50,6 +50,14 @@ namespace HiBlazor.Server.Controllers
         {
             var islogin = _userService.IsLogin();
             return Ok(islogin);
+        }  
+
+        [AllowAnonymous]
+        [HttpGet("iscompany")]
+        public IActionResult IsCompany()
+        {
+            var isCompany = _userService.IsCompany();
+            return Ok(isCompany);
         }
 
         [AllowAnonymous]
