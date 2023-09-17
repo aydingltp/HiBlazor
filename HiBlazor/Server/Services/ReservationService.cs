@@ -19,11 +19,11 @@ namespace HiBlazor.Server.Services
             _mapper = mapper;
         }
 
-        public void Create(ReservationVm model,int userId)
+        public void Create(ReservationVm model, int userId)
         {
             // map model to new user object
             var reservation = _mapper.Map<Reservation>(model);
-            reservation.UserId = userId;    
+            reservation.UserId = userId;
             _context.Reservations.Add(reservation);
             _context.SaveChanges();
         }
@@ -35,9 +35,13 @@ namespace HiBlazor.Server.Services
             _context.SaveChanges();
         }
 
-        public List<Reservation> GetAll()
+        public IEnumerable<Reservation> GetAll()
         {
-            return _context.Reservations.ToList();
+            return _context.Reservations.Include(p => p.User).Include(p => p.Teklifler).AsNoTracking().ToList();
+        }
+        public IEnumerable<Reservation> GetAllWithId(int userId)
+        {
+            return _context.Reservations.Where(p => p.UserId == userId).Include(p => p.User).Include(p => p.Teklifler).AsNoTracking().ToList();
         }
 
         public Reservation GetById(int id)

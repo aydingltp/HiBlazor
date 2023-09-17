@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HiBlazor.Shared.VmModels
 {
-    public class ReservationVm
+    public class ReservationVm : BaseModel
     {
         public string DestinationPlace { get; set; }
         public string StartingPlace { get; set; }

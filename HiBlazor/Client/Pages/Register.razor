@@ -1,69 +1,71 @@
 ﻿@page "/register"
-@* @layout LoginLayout *@
+@layout LoginLayout
 @using HiBlazor.Shared.VmModels;
 @inject HttpClient Http
 @inject NotificationService NotificationService
 @inject NavigationManager NavigationManager
 
-<RadzenTemplateForm Data="@registerVm" Submit="@((UserRegisterRequest args) => { Submit(args); })">
-    <RadzenRow Gap="2rem" Class="rz-p-0 rz-p-lg-4">
-        <RadzenColumn Size="12" SizeMD="6">
-            <RadzenStack>
-                <RadzenFieldset Text="Kulanıcı Kaydı">
-                    <RadzenStack Gap="1rem">
-                        <RadzenRow AlignItems="AlignItems.Center">
-                            <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="Ad" />
-                            </RadzenColumn>
-                            <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox @bind-Value=@registerVm.FirstName Style="width: 100%;" />
-                            </RadzenColumn>
-                        </RadzenRow>
-                        <RadzenRow AlignItems="AlignItems.Center">
-                            <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="Soyad" />
-                            </RadzenColumn>
-                            <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox @bind-Value=@registerVm.LastName Style="width: 100%;" />
-                            </RadzenColumn>
-                        </RadzenRow>
-                        <RadzenRow AlignItems="AlignItems.Center">
-                            <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="Kullanıcı Adı" />
-                            </RadzenColumn>
-                            <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox @bind-Value=@registerVm.Username Style="width: 100%;" />
-                            </RadzenColumn>
-                        </RadzenRow>
-                        <RadzenRow AlignItems="AlignItems.Center">
-                            <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="Hesap Türü" />
-                            </RadzenColumn>
-                            <RadzenColumn Size="12" SizeMD="8">
-                                <InputSelect @bind-Value=@registerVm.UserType Style="width: 100%;" class="rz-dropdown rz-clear">
+<RadzenCard class="rz-my-12 rz-mx-auto rz-p-4 rz-p-md-12" style="max-width: 600px;">
+    <RadzenTemplateForm Data="@registerVm" Submit="@((UserRegisterRequest args) => { Submit(args); })">
+        <RadzenRow Gap="2rem">
+            <RadzenColumn Size="12" SizeMD="12">
+                <RadzenStack>
+                    <RadzenFieldset Text="Kulanıcı Kaydı">
+                        <RadzenStack Gap="1rem">
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Ad" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox @bind-Value=@registerVm.FirstName Style="width: 100%;" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Soyad" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox @bind-Value=@registerVm.LastName Style="width: 100%;" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Kullanıcı Adı" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox @bind-Value=@registerVm.Username Style="width: 100%;" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Hesap Türü" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <InputSelect @bind-Value=@registerVm.UserType Style="width: 100%;" class="rz-dropdown rz-clear">
                                         <option value="0">Müşteri</option>
                                         <option value="1">Nakliye Şirketi</option>
-                                </InputSelect>
-                            </RadzenColumn>
-                        </RadzenRow>
-                        <RadzenRow AlignItems="AlignItems.Center">
-                            <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="Password" />
-                            </RadzenColumn>
-                            <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenPassword @bind-Value=@registerVm.Password />
-                            </RadzenColumn>
-                        </RadzenRow>
-                    </RadzenStack>
-                </RadzenFieldset>
-            </RadzenStack>
-        </RadzenColumn>
-    </RadzenRow>
-    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" Class="rz-mt-8 rz-mb-4">
-        <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Save" />
-        <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="Cancel" Click="@Cancel" />
-    </RadzenStack>
-</RadzenTemplateForm>
+                                    </InputSelect>
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Password" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenPassword @bind-Value=@registerVm.Password Style="width: 100%;" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                        </RadzenStack>
+                    </RadzenFieldset>
+                </RadzenStack>
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" Class="rz-mt-8 rz-mb-4">
+            <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Save" />
+            <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="Cancel" Click="@Cancel" />
+        </RadzenStack>
+    </RadzenTemplateForm>
+</RadzenCard>
 
 @code {
     UserRegisterRequest registerVm = new UserRegisterRequest();

@@ -1,9 +1,26 @@
 ﻿@page "/"
+@inject HttpClient Http
+@inject NotificationService NotificationService
+@inject NavigationManager NavigationManager
 
-<PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<PageTitle>Anasayfa</PageTitle>
 
-Welcome to your new app.
+<h1>Hi Blazor</h1>
 
+Dünyanın her yerinden taşıma ihtiyacı olanlarla, taşıma işlemlerini gerçekleştirenleri buluşturan platform.
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@code{
+
+    public bool isLogin { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        isLogin = await Http.GetFromJsonAsync<bool>("users/islogin");
+        if (!isLogin)
+        {
+            NavigationManager.NavigateTo("/login");
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Giriş yapınız!" });
+        }
+    }
+}

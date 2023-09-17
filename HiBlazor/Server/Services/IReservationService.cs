@@ -5,7 +5,8 @@ namespace HiBlazor.Server.Services
 {
     public interface IReservationService
     {
-        List<Reservation> GetAll();
+        IEnumerable<Reservation> GetAll();
+        IEnumerable<Reservation> GetAllWithId(int userId);
         Reservation GetById(int id);
         void Create(ReservationVm model, int userId);
         void Update(int id, ReservationVm model);

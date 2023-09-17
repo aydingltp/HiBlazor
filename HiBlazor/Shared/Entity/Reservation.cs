@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -40,14 +42,20 @@ namespace HiBlazor.Shared.Entity
 
     public enum TeklifState
     {
+        [Display(Name = "Red Edildi")]
         Red,
+        [Display(Name = "Beklemede")]
         Beklemede,
+        [Display(Name = "Kabul Edildi")]
         Kabul
     }
     public enum ReservationState
     {
+        [Display(Name = "Oluşturuldu")]
         Created,
+        [Display(Name = "İşleniyor")]
         Doing,
+        [Display(Name = "Bitti")]
         Finish
     }
 }

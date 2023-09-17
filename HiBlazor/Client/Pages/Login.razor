@@ -1,14 +1,14 @@
 ﻿@page "/login"
 @using HiBlazor.Shared.VmModels;
-@* @layout LoginLayout  *@
+@layout LoginLayout
 @inject HttpClient Http
 @inject NotificationService NotificationService
 @inject NavigationManager NavigationManager
 
 <RadzenCard class="rz-my-12 rz-mx-auto rz-p-4 rz-p-md-12" style="max-width: 600px;">
     <RadzenTemplateForm Data=@("LoginWithDefaultValues")>
-        <RadzenLogin AllowRegister="true" AllowResetPassword="false" Username=@userName Password=@password
-                     AllowRememberMe="true" RememberMe="@rememberMe"
+        <RadzenLogin AllowRegister="false" AllowResetPassword="false" Username=@userName Password=@password
+                     AllowRememberMe="false" RememberMe="@rememberMe"
                      Login=@(args => OnLogin(args, "Login with default values"))
                      ResetPassword=@(args => OnResetPassword(args, "Login with default values"))
                      Register=@(args => OnRegister("Login with default values")) />

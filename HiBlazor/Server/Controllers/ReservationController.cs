@@ -18,26 +18,25 @@ namespace HiBlazor.Server.Controllers
     public class ReservationController : ControllerBase
     {
         private IReservationService _reservationService;
+        private IUserService _userService;
         private IMapper _mapper;
         ISimpleHash simpleHash = new SimpleHash();
         private IJwtUtils _jwtUtils;
-        public ReservationController(IReservationService reservationService, IMapper mapper, IJwtUtils jwtUtils)
+        private readonly IHttpContextAccessor _contextAccessor;
+        public ReservationController(IReservationService reservationService, IMapper mapper, IJwtUtils jwtUtils, IHttpContextAccessor contextAccessor, IUserService userService)
         {
             _reservationService = reservationService;
             _mapper = mapper;
             _jwtUtils = jwtUtils;
+            _contextAccessor = contextAccessor;
+            _userService = userService;
         }
 
         [AllowAnonymous]
         [HttpPost("create")]
         public IActionResult Create(ReservationVm model)
         {
-            var userTokenByte = HttpContext.Session.Get("token");
-            if (userTokenByte == null)
-                return BadRequest(new { message = "token not found" });
-
-            var userToken = Encoding.Default.GetString(userTokenByte);
-
+            var userToken = _contextAccessor.HttpContext.Session.GetString("token");
             var userId = _jwtUtils.ValidateToken(userToken).Value;
            
             _reservationService.Create(model, userId);
@@ -48,6 +47,14 @@ namespace HiBlazor.Server.Controllers
         public IActionResult GetAll()
         {
             var reservations = _reservationService.GetAll();
+            return Ok(reservations);
+        }
+
+        [HttpGet("getallwithid")]
+        public IActionResult GetAllWithId()
+        {
+            var userId = _userService.GetLoggedUserId();
+            var reservations = _reservationService.GetAllWithId(userId);
             return Ok(reservations);
         }
 
