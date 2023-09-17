@@ -2,12 +2,22 @@ using HiBlazor.Server.Authorization;
 using HiBlazor.Server.Helpers;
 using HiBlazor.Server.Services;
 using Microsoft.AspNetCore.ResponseCompression;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(o =>
+{
+    //Dikkat bu kod çok önemli en az 4 saat verdim bu ayara!
+    //include edilen nesnenin de deep cycle oluþturmadan dönüþtürmeye yarýyor!!
+    o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    o.JsonSerializerOptions.MaxDepth = 0;
+    o.JsonSerializerOptions.WriteIndented = true;
+    o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<DataContext>();
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
@@ -47,7 +57,7 @@ app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader());
 // global error handler
-app.UseMiddleware<ErrorHandlerMiddleware>();
+//app.UseMiddleware<ErrorHandlerMiddleware>();
 // custom jwt auth middleware
 app.UseMiddleware<JwtMiddleware>();
 
