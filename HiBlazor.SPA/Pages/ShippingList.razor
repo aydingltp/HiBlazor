@@ -1,0 +1,56 @@
+﻿@page "/shipping-list"
+@using HiBlazor.SPA.Entity;
+@using HiBlazor.SPA.Services;
+
+@inject ReservationService ReservationService
+@inject HttpClient Http
+@inject NotificationService NotificationService
+@inject NavigationManager NavigationManager
+<h3>Nakliye Taleplerim</h3>
+
+
+<RadzenDataList AllowVirtualization=@allowVirtualization Style="@(allowVirtualization ? "height:400px;overflow:auto;" : "")"
+                WrapItems="@(!allowVirtualization)" AllowPaging="@(!allowVirtualization)"
+                Data="@reservations" TItem="Reservation" PageSize="5" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+    <Template Context="reservation">
+        <RadzenCard Style="width: 100%; padding: 0;">
+            <RadzenRow Gap="0">
+                <RadzenColumn Size="12" SizeLG="3" Class="rz-p-4 product-title">
+                    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H6" Style="display:inline-block;" class="rz-color-secondary">@(reservation.StartingPlace) &nbsp;</RadzenText>
+                        <RadzenIcon Icon="flight_takeoff" Style="display:inline-block;" />
+                        <RadzenText TextStyle="TextStyle.H6" Style="display:inline-block;" TagName="TagName.H6" class="rz-color-secondary">&nbsp; @(reservation.DestinationPlace)</RadzenText>
+                    </RadzenColumn>
+                    <RadzenColumn Size="12" SizeLG="5" Class="rz-p-4">
+                        <RadzenRow Gap="0">
+                            <RadzenColumn Size="12" SizeMD="6" SizeLG="5">
+                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-mb-0">Açıklama</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body2">@(reservation.Description)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="6" SizeLG="3" Class="rz-text-align-start rz-text-align-lg-end">
+                                <RadzenBadge BadgeStyle="BadgeStyle.Secondary" Shade="Shade.Lighter" class="price-badge" Text=@(reservation.State.GetDisplayDescription()) />
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenColumn>
+                    <RadzenColumn Size="12" SizeLG="2" Class="rz-p-4">
+                        <RadzenButton Text="Güncelle" Style="width: 100%" />
+                    </RadzenColumn>
+                </RadzenRow>
+            </RadzenCard>
+        </Template>
+    </RadzenDataList>
+@code {
+    IEnumerable<Reservation> reservations;
+    bool allowVirtualization;
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            reservations = ReservationService.GetAllWithId(3);
+        }
+        catch (Exception ex)
+        {
+            var dfd = ex.Message;
+            throw;
+        }
+    }
+}

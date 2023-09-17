@@ -1,0 +1,235 @@
+﻿@page "/register"
+@using HiBlazor.SPA.Entity;
+@using HiBlazor.SPA.Services;
+@using HiBlazor.SPA.VmModels;
+@layout LoginLayout
+@inject NotificationService NotificationService
+@inject NavigationManager NavigationManager
+@inject ReservationService ReservationService
+@inject UserService UserService
+
+<RadzenCard class="rz-my-12 rz-mx-auto rz-p-4 rz-p-md-12" style="max-width: 600px;">
+    <RadzenTemplateForm Data="@registerVm" Submit="@((UserRegisterRequest args) => { Submit(args); })">
+        <RadzenRow Gap="2rem">
+            <RadzenColumn Size="12" SizeMD="12">
+                <RadzenStack>
+                    <RadzenFieldset Text="Kulanıcı Kaydı">
+                        <RadzenStack Gap="1rem">
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Ad" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox @bind-Value=@registerVm.FirstName Style="width: 100%;" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Soyad" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox @bind-Value=@registerVm.LastName Style="width: 100%;" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Kullanıcı Adı" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox @bind-Value=@registerVm.Username Style="width: 100%;" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Hesap Türü Şirket" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenCheckBox @bind-Value="registerVm.IsCompany" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="AlignItems.Center" Visible=registerVm.IsCompany>
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Şirket Adı" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox @bind-Value="registerVm.Company.Name" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="AlignItems.Center" Visible=registerVm.IsCompany>
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Açıklama" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox @bind-Value="registerVm.Company.Description" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="AlignItems.Center" Visible=registerVm.IsCompany>
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Araç Sayısı" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenNumeric TValue="int" Value=@vehicleNumber Change=@(args => vehicleNumber = args) Min="1" Max="3" />
+                                </RadzenColumn>
+                            </RadzenRow>
+
+                            @if (vehicleNumber >= 1)
+                            {
+                                <RadzenFieldset Text="Araç 1">
+                                    <RadzenRow AlignItems="AlignItems.Center">
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenLabel Text="Vehicle Type" />
+                                        </RadzenColumn>
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenDropDown @bind-Value="vehicle1.VehicleType" TextProperty="Text" ValueProperty="Value"
+                                                            Data="@(Enum.GetValues(typeof(VehicleType)).Cast<VehicleType>().Select(t => new { Text = $"{t}", Value = t }))" />
+                                        </RadzenColumn>
+                                    </RadzenRow>
+                                    <RadzenRow AlignItems="AlignItems.Center">
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenTextBox @bind-Value="vehicle1.Name" Placeholder="Vehicle Name" />
+                                        </RadzenColumn>
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenTextBox @bind-Value="vehicle1.Model" Placeholder="Vehicle Model" />
+                                        </RadzenColumn>
+                                    </RadzenRow>
+
+                                    <RadzenRow AlignItems="AlignItems.Center">
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenTextBox @bind-Value="vehicle1.DriverName" Placeholder="Driver Name" />
+                                        </RadzenColumn>
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenTextBox @bind-Value="vehicle1.DriverPhone" Placeholder="Driver Phone" />
+                                        </RadzenColumn>
+                                    </RadzenRow>
+                                </RadzenFieldset>
+                            }
+                            @if (vehicleNumber > 1)
+                            {
+                                <RadzenFieldset Text="Araç 2">
+                                    <RadzenRow AlignItems="AlignItems.Center">
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenLabel Text="Vehicle Type" />
+                                        </RadzenColumn>
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenDropDown @bind-Value="vehicle2.VehicleType" TextProperty="Text" ValueProperty="Value"
+                                                            Data="@(Enum.GetValues(typeof(VehicleType)).Cast<VehicleType>().Select(t => new { Text = $"{t}", Value = t }))" />
+                                        </RadzenColumn>
+                                    </RadzenRow>
+                                    <RadzenRow AlignItems="AlignItems.Center">
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenTextBox @bind-Value="vehicle2.Name" Placeholder="Vehicle Name" />
+                                        </RadzenColumn>
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenTextBox @bind-Value="vehicle2.Model" Placeholder="Vehicle Model" />
+                                        </RadzenColumn>
+                                    </RadzenRow>
+
+                                    <RadzenRow AlignItems="AlignItems.Center">
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenTextBox @bind-Value="vehicle2.DriverName" Placeholder="Driver Name" />
+                                        </RadzenColumn>
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenTextBox @bind-Value="vehicle2.DriverPhone" Placeholder="Driver Phone" />
+                                        </RadzenColumn>
+                                    </RadzenRow>
+                                </RadzenFieldset>
+                            }
+                            @if (vehicleNumber > 2)
+                            {
+                                <RadzenFieldset Text="Araç 3">
+                                    <RadzenRow AlignItems="AlignItems.Center">
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenLabel Text="Vehicle Type" />
+                                        </RadzenColumn>
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenDropDown @bind-Value="vehicle3.VehicleType" TextProperty="Text" ValueProperty="Value"
+                                                            Data="@(Enum.GetValues(typeof(VehicleType)).Cast<VehicleType>().Select(t => new { Text = $"{t}", Value = t }))" />
+                                        </RadzenColumn>
+                                    </RadzenRow>
+                                    <RadzenRow AlignItems="AlignItems.Center">
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenTextBox @bind-Value="vehicle3.Name" Placeholder="Vehicle Name" />
+                                        </RadzenColumn>
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenTextBox @bind-Value="vehicle3.Model" Placeholder="Vehicle Model" />
+                                        </RadzenColumn>
+                                    </RadzenRow>
+
+                                    <RadzenRow AlignItems="AlignItems.Center">
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenTextBox @bind-Value="vehicle3.DriverName" Placeholder="Driver Name" />
+                                        </RadzenColumn>
+                                        <RadzenColumn Size="12" SizeMD="6">
+                                            <RadzenTextBox @bind-Value="vehicle3.DriverPhone" Placeholder="Driver Phone" />
+                                        </RadzenColumn>
+                                    </RadzenRow>
+                                </RadzenFieldset>
+                            }
+
+
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Password" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenPassword @bind-Value=@registerVm.Password Style="width: 100%;" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                        </RadzenStack>
+                    </RadzenFieldset>
+                </RadzenStack>
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" Class="rz-mt-8 rz-mb-4">
+            <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Save" />
+            <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="Cancel" Click="@Cancel" />
+        </RadzenStack>
+    </RadzenTemplateForm>
+</RadzenCard>
+
+@code {
+    UserRegisterRequest registerVm = new UserRegisterRequest();
+    int vehicleNumber = 0;
+    List<Vehicle> vehicles = new List<Vehicle>();
+
+    VehicleType vehicleType = VehicleType.Small;
+
+    Vehicle vehicle1 = new Vehicle();
+    Vehicle vehicle2 = new Vehicle();
+    Vehicle vehicle3 = new Vehicle();
+
+    async void Submit(UserRegisterRequest arg)
+    {
+        vehicles.Add(vehicle1);
+        if (!string.IsNullOrEmpty(vehicle2.Name))
+            vehicles.Add(vehicle2);
+        if (!string.IsNullOrEmpty(vehicle3.Name))
+            vehicles.Add(vehicle2);
+
+        arg.Company.Vehicles = vehicles;
+        try
+        {
+             UserService.Register(arg);
+            // var registerService = await Http.PostAsJsonAsync("users/register", arg);
+            // if (registerService.IsSuccessStatusCode)
+            // {
+            //     NavigationManager.NavigateTo("login");
+            //     return;
+            // }
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "" });
+
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
+
+
+    }
+
+    void Cancel()
+    {
+        //
+    }
+}

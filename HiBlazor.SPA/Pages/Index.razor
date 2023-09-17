@@ -1,9 +1,32 @@
 ﻿@page "/"
+@using Blazored.SessionStorage;
+@using HiBlazor.SPA.Services;
+@inject NotificationService NotificationService
+@inject NavigationManager NavigationManager
+@inject UserService UserService
+@inject ISyncSessionStorageService sessionStorage
 
-<PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<PageTitle>Anasayfa</PageTitle>
 
-Welcome to your new app.
+<h1>Hi Blazor</h1>
 
+Dünyanın her yerinden taşıma ihtiyacı olanlarla, taşıma işlemlerini gerçekleştirenleri buluşturan platform.
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@code{
+
+    public bool isLogin { get; set; }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        isLogin = sessionStorage.GetItem<string>("token") != null;
+       
+        if (!isLogin)
+        {
+            NavigationManager.NavigateTo("/login");
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Giriş yapınız!" });
+        }
+        base.OnAfterRender(firstRender);
+    }
+    
+}
